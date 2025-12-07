@@ -1,8 +1,3 @@
-Perfeito! Aqui está a **versão reescrita, enxuta, clara, profissional e totalmente formatada para GitHub (Markdown puro)**.
-Mantém didática, hierarquia e boa escaneabilidade — ideal para documentação.
-
----
-
 # 🎯 Two Pointers Pattern — Guia Completo
 
 ## 📘 O que é o Padrão Two Pointers?
