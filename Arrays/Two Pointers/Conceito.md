@@ -99,63 +99,79 @@ Passo 1: [1, 2, 3, 4, 5, 6, 7, 8]
 ### 2️⃣ Redução do Subproblema (Subproblem Reduction)
 
 #### Descrição
-Os ponteiros começam **juntos** (geralmente nas extremidades) e se afastam, **reduzindo** o problema em partes menores.
+Os ponteiros trabalham para **reduzir o espaço de busca** eliminando subproblemas impossíveis, geralmente em arrays onde você precisa otimizar algo (máximo/mínimo) enquanto mantém uma condição.
 
 #### Características
-- Divide o problema em **subproblemas menores**
-- Ponteiros se movem **afastando-se** um do outro
-- Usado para problemas de **simetria** e **validação**
+- **Elimina possibilidades** que não podem ser solução
+- Reduz o **espaço de busca** a cada iteração
+- Move ponteiros baseado em **lógica de otimização**
+- Usado quando há **múltiplas subseções** possíveis
 
 #### Quando usar
-- ✅ Problemas de palíndromo
-- ✅ Verificação de strings/arrays válidos
-- ✅ Comparação de extremidades
-- ✅ Problemas que podem ser divididos ao meio
+- ✅ Precisa encontrar **máximo ou mínimo** de algo
+- ✅ Pode **eliminar** grupos de possibilidades de uma vez
+- ✅ Decisão de mover ponteiro baseada em **comparação de valores**
+- ✅ Problema de **área, volume, ou quantidade**
 
 #### Palavras-chave que indicam uso
-`palíndromo`, `válido`, `balanceado`, `simétrico`, `espelhado`, `matching`, `verificar de fora para dentro`
+`máximo`, `mínimo`, `maior área`, `container`, `otimizar`, `reduzir espaço`, `eliminar possibilidades`
 
 #### Template
 ```java
-public boolean subproblemReduction(String s) {
+public int subproblemReduction(int[] heights) {
     int left = 0;
-    int right = s.length() - 1;
+    int right = heights.length - 1;
+    int maxArea = 0;
     
     while (left < right) {
-        if (s.charAt(left) != s.charAt(right)) {
-            return false;
+        // Calcula solução atual
+        int width = right - left;
+        int height = Math.min(heights[left], heights[right]);
+        int area = width * height;
+        maxArea = Math.max(maxArea, area);
+        
+        // Reduz o subproblema: elimina o lado menor
+        // pois ele nunca produzirá uma área maior
+        if (heights[left] < heights[right]) {
+            left++;  // Elimina subproblemas com left
+        } else {
+            right--;  // Elimina subproblemas com right
         }
-        left++;
-        right--;
     }
     
-    return true;
+    return maxArea;
 }
 ```
 
 #### Exemplo Prático
-**Problema:** Verificar se "arara" é um palíndromo
+**Problema:** Container With Most Water - encontrar máxima área entre duas linhas `[1, 8, 6, 2, 5, 4, 8, 3, 7]`
 
 ```
-Passo 1: a r a r a
-         ↑       ↑
-         a == a ✓
+Passo 1: [1, 8, 6, 2, 5, 4, 8, 3, 7]
+          ↑                       ↑
+        left(1)              right(7)
+        área = 8 * min(1,7) = 8
+        1 < 7, então left++ (elimina todos subproblemas com 1)
 
-Passo 2: a r a r a
-           ↑   ↑
-           r == r ✓
+Passo 2: [1, 8, 6, 2, 5, 4, 8, 3, 7]
+             ↑                    ↑
+           left(8)            right(7)
+           área = 7 * min(8,7) = 49
+           8 > 7, então right-- (elimina subproblemas com 7)
 
-Passo 3: a r a r a
-             ↑
-         Centro alcançado ✓
+Passo 3: [1, 8, 6, 2, 5, 4, 8, 3, 7]
+             ↑                 ↑
+           left(8)         right(3)
+           área = 6 * min(8,3) = 18
+           8 > 3, então right-- (continua reduzindo)
 ```
 
 #### Aplicações Comuns
-- Valid Palindrome
-- Longest Palindromic Substring
-- Valid Parentheses (variação)
-- Reverse String
-- Compare Version Numbers
+- Container With Most Water
+- Trapping Rain Water
+- 3Sum / 4Sum (variações)
+- Minimize Maximum Pair Sum
+- Boats to Save People
 
 ---
 
