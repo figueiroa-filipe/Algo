@@ -56,22 +56,25 @@ Os dois ponteiros começam em **extremos opostos** do array e se movem em direç
 `soma igual a`, `par de números`, `dois elementos`, `reverter`, `palíndromo simples`, `container with most water`
 
 #### Template
-```python
-def two_pointer_direct(arr, target):
-    left = 0
-    right = len(arr) - 1
+```java
+public int[] twoPointerDirect(int[] arr, int target) {
+    int left = 0;
+    int right = arr.length - 1;
     
-    while left < right:
-        current_sum = arr[left] + arr[right]
+    while (left < right) {
+        int currentSum = arr[left] + arr[right];
         
-        if current_sum == target:
-            return [left, right]
-        elif current_sum < target:
-            left += 1  # Aumenta a soma
-        else:
-            right -= 1  # Diminui a soma
+        if (currentSum == target) {
+            return new int[]{left, right};
+        } else if (currentSum < target) {
+            left++;  // Aumenta a soma
+        } else {
+            right--;  // Diminui a soma
+        }
+    }
     
-    return None
+    return new int[]{-1, -1};  // Não encontrado
+}
 ```
 
 #### Exemplo Prático
@@ -113,18 +116,21 @@ Os ponteiros começam **juntos** (geralmente nas extremidades) e se afastam, **r
 `palíndromo`, `válido`, `balanceado`, `simétrico`, `espelhado`, `matching`, `verificar de fora para dentro`
 
 #### Template
-```python
-def subproblem_reduction(s):
-    left = 0
-    right = len(s) - 1
+```java
+public boolean subproblemReduction(String s) {
+    int left = 0;
+    int right = s.length() - 1;
     
-    while left < right:
-        if s[left] != s[right]:
-            return False
-        left += 1
-        right -= 1
+    while (left < right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            return false;
+        }
+        left++;
+        right--;
+    }
     
-    return True
+    return true;
+}
 ```
 
 #### Exemplo Prático
@@ -174,22 +180,26 @@ Os dois ponteiros se movem na **mesma direção**, mas em **velocidades diferent
 `substring`, `subarray`, `contínuo`, `sequência`, `janela`, `menor/maior substring`, `soma de subarray`, `k elementos`
 
 #### Template
-```python
-def identifying_subproblem(arr, target):
-    left = 0
-    current_sum = 0
+```java
+public int[] identifyingSubproblem(int[] arr, int target) {
+    int left = 0;
+    int currentSum = 0;
     
-    for right in range(len(arr)):
-        current_sum += arr[right]
+    for (int right = 0; right < arr.length; right++) {
+        currentSum += arr[right];
         
-        while current_sum > target:
-            current_sum -= arr[left]
-            left += 1
+        while (currentSum > target && left <= right) {
+            currentSum -= arr[left];
+            left++;
+        }
         
-        if current_sum == target:
-            return [left, right]
+        if (currentSum == target) {
+            return new int[]{left, right};
+        }
+    }
     
-    return None
+    return new int[]{-1, -1};  // Não encontrado
+}
 ```
 
 #### Exemplo Prático
@@ -257,6 +267,34 @@ O array está ordenado?
 
 ---
 
+## 🌍 Aplicações no Mundo Real
+
+### 1. Redes Sociais
+- **Aplicação Direta:** Encontrar amigos em comum entre duas pessoas
+- **Identificando:** Sugerir novos amigos baseado em interesses
+
+### 2. E-commerce
+- **Aplicação Direta:** Encontrar produtos que juntos cabem no orçamento
+- **Identificando:** Encontrar combinações de produtos para promoções
+
+### 3. Editores de Texto
+- **Redução:** Verificar se parênteses/colchetes estão balanceados
+- **Identificando:** Buscar e substituir palavras, spell checker
+
+### 4. Análise de Dados
+- **Identificando:** Encontrar períodos com maior/menor vendas
+- **Aplicação Direta:** Comparar métricas de períodos diferentes
+
+### 5. Streaming (Netflix, Spotify)
+- **Identificando:** Recomendar sequências de conteúdo
+- **Aplicação Direta:** Comparar preferências de usuários
+
+### 6. Segurança/Criptografia
+- **Redução:** Validar senhas e padrões
+- **Identificando:** Detectar padrões suspeitos em logs
+
+---
+
 ## 📊 Complexidade
 
 ### Temporal
@@ -266,3 +304,13 @@ O array está ordenado?
 
 ### Espacial
 Todos os três padrões: **O(1)** - usam apenas variáveis auxiliares
+
+### Comparação com Força Bruta
+```
+Problema: Encontrar par que soma X
+- Força Bruta: O(n²) tempo, O(1) espaço
+- Two Pointers: O(n) tempo, O(1) espaço
+- Hash Map: O(n) tempo, O(n) espaço
+```
+
+---
